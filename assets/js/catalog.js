@@ -1,4 +1,4 @@
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from '/assets/js/config.js';
 
 async function sbFetch(path, opts={}){
   const url = `${SUPABASE_URL}/rest/v1/${path}`;
