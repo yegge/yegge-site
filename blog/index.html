@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog — Yegge</title>
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="module" src="/assets/js/inject.js"></script>
+  <script type="module" src="/assets/js/config.js"></script>
+  <script type="module" src="/assets/js/blog.js"></script>
+  <style>
+    .pill{display:inline-block;padding:.3rem .6rem;border:1px solid var(--border);border-radius:999px;margin-right:.3rem;cursor:pointer}
+    .pill.active{background:var(--text);color:#000}
+  </style>
+</head><body>
+  <div id="site-header"></div>
+  <main class="container">
+    <h1>Blog</h1>
+
+    <section class="card">
+      <div class="mb-2">
+        <span class="pill" data-cat="">All</span>
+        <span class="pill" data-cat="Angershade">Angershade</span>
+        <span class="pill" data-cat="The Corruptive">The Corruptive</span>
+        <span class="pill" data-cat="Yegge">Yegge</span>
+      </div>
+      <div class="grid cols-2">
+        <input id="q" placeholder="Search title or body…">
+        <input id="tag" placeholder="Filter by tag (e.g., AI)">
+      </div>
+    </section>
+
+    <section class="mt-8">
+      <div id="blog-list" class="grid cols-3"></div>
+      <div class="mt-8 center">
+        <button id="prev" class="btn outline">Prev</button>
+        <span id="page" class="muted" style="margin:0 .75rem"></span>
+        <button id="next" class="btn outline">Next</button>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+</body></html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin — Yegge</title>
+  <meta name="robots" content="noindex,nofollow">
+  <script type="module" src="/assets/js/admin.js"></script>
+  <link rel="stylesheet" href="/assets/css/site.css"/>
+  <script type="module" src="/assets/js/inject.js"></script>
+  <style>
+    .tabs { display:flex; gap:.5rem; margin:.5rem 0 1rem }
+    .tabs button { border:1px solid var(--border); background:transparent; color:var(--text); padding:.5rem .75rem; border-radius:6px; cursor:pointer }
+    .tabs button.active { background:var(--text); color:#000 }
+    .row-grid { display:grid; grid-template-columns: 2fr 3fr; gap:1rem }
+    .table { width:100%; border-collapse: collapse }
+    .table th,.table td { border-bottom:1px solid var(--border); padding:.5rem }
+    .right { text-align:right }
+    .hidden { display:none }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <main class="container">
+    <h1>Admin</h1>
+
+    <!-- LOGIN -->
+    <section id="login-panel" class="card">
+      <h2>Sign in</h2>
+      <form id="login-form" class="pure-form pure-form-stacked">
+        <label>Email <input type="email" name="email" required></label>
+        <label>Password <input type="password" name="password" required></label>
+        <button class="btn" type="submit">Sign In</button>
+      </form>
+      <p class="muted mt-8">Uses Supabase Auth; your credentials never leave Supabase.</p>
+    </section>
+
+    <!-- APP -->
+    <section id="app" class="hidden">
+      <div class="right">
+        <span id="whoami" class="muted"></span>
+        <button id="signout" class="btn outline">Sign out</button>
+      </div>
+
+      <div class="tabs">
+        <button data-tab="catalog" class="active">Catalog</button>
+        <button data-tab="blog">Blog</button>
+        <button data-tab="submissions">Submissions</button>
+      </div>
+
+      <!-- CATALOG -->
+      <section id="tab-catalog">
+        <div class="row-grid">
+          <div class="card">
+            <h3>Albums</h3>
+            <table class="table" id="albums-table">
+              <thead><tr><th>Artist</th><th>Title</th><th>Type</th><th>Visibility</th><th>Release</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+            <button id="new-album" class="btn mt-8">+ New Album</button>
+          </div>
+          <div class="card">
+            <h3 id="album-form-title">New Album</h3>
+            <form id="album-form" class="pure-form pure-form-stacked">
+              <input type="hidden" name="id">
+              <label>Album Artist <input name="album_artist" required></label>
+              <label>Album Name <input name="album_name" required></label>
+              <label>Album Type
+                <select name="album_type" required>
+                  <option value="LP">LP</option><option value="EP">EP</option><option value="SP">SP</option>
+                </select>
+              </label>
+              <label>Catalog No <input name="catalog_no"></label>
+              <label>Catalog (Roman) <input name="catalog_roman"></label>
+              <label>Visibility
+                <select name="visibility">
+                  <option>PUBLIC</option><option>VIP</option><option>ADMIN</option>
+                </select>
+              </label>
+              <label>Release Date <input type="date" name="release_date"></label>
+              <label>Physical Release Date <input type="date" name="physical_release_date"></label>
+              <label>Album Status
+                <select name="album_status">
+                  <option>In Development</option><option>Released</option><option>Removed</option>
+                </select>
+              </label>
+              <label>Art — Front <input name="art_front" placeholder="https://..."></label>
+              <label>Art — Back <input name="art_back" placeholder="https://..."></label>
+              <label>Art — Sleeve <input name="art_sleeve" placeholder="https://..."></label>
+              <label>Art — Sticker <input name="art_sticker" placeholder="https://..."></label>
+              <label>Stream Links (JSON array) <textarea name="stream_links" rows="3" placeholder='[{"name":"Spotify","url":"https://..."},{"name":"Apple","url":"https://..."}]'></textarea></label>
+              <label>Purchase Links (JSON array) <textarea name="purchase_links" rows="3"></textarea></label>
+              <label>Distributor <input name="distributor"></label>
+              <label>Label <input name="label"></label>
+              <label>Album Commentary <textarea name="album_commentary" rows="4"></textarea></label>
+              <div class="mt-8">
+                <button class="btn" type="submit">Save Album</button>
+                <button class="btn outline" type="button" id="delete-album">Delete</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card mt-8">
+          <h3>Tracks for: <span id="tracks-for" class="muted">[select an album]</span></h3>
+          <table class="table" id="tracks-table">
+            <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Stage</th><th>Dur</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <h4 class="mt-8">Add / Edit Track</h4>
+          <form id="track-form" class="pure-form pure-form-stacked">
+            <input type="hidden" name="id">
+            <input type="hidden" name="album_id">
+            <label>Track # <input name="track_no" type="number" min="1"></label>
+            <label>Track Name <input name="track_name" required></label>
+            <label>Track Status
+              <select name="track_status">
+                <option>WIP</option><option>B-SIDE</option><option>RELEASED</option><option>SHELVED</option>
+              </select>
+            </label>
+            <label>Stage
+              <select name="stage">
+                <option>CONCEPTION</option><option>DEMO</option><option>IN SESSION</option><option>OUT SESSION</option>
+                <option>MIXDOWN</option><option>MASTERING</option><option>DISTRIBUTION</option><option>SHELVED</option>
+                <option>REMOVED</option><option>RELEASED</option>
+              </select>
+            </label>
+            <label>Duration (MM:SS) <input name="duration" placeholder="03:21"></label>
+            <label>Stream Embed (HTML) <textarea name="stream_embed" rows="3" placeholder="<iframe ...>"></textarea></label>
+            <label>Purchase URL <input name="purchase_url" placeholder="https://..."></label>
+            <label>Commentary <textarea name="track_commentary" rows="3"></textarea></label>
+            <div class="mt-8">
+              <button class="btn" type="submit">Save Track</button>
+              <button class="btn outline" type="button" id="delete-track">Delete</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- BLOG -->
+      <section id="tab-blog" class="hidden">
+        <div class="row-grid">
+          <div class="card">
+            <h3>Posts</h3>
+            <table class="table" id="posts-table">
+              <thead><tr><th>Title</th><th>Category</th><th>Draft</th><th>Publish</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+            <button id="new-post" class="btn mt-8">+ New Post</button>
+          </div>
+          <div class="card">
+            <h3 id="post-form-title">New Post</h3>
+            <form id="post-form" class="pure-form pure-form-stacked">
+              <input type="hidden" name="id">
+              <label>Slug <input name="slug" required placeholder="my-post-slug"></label>
+              <label>Title <input name="title" required></label>
+              <label>Author <input name="author" value="Brian Yegge"></label>
+              <label>Category
+                <select name="category">
+                  <option>Angershade</option><option>The Corruptive</option><option>Yegge</option>
+                </select>
+              </label>
+              <label>Tags (comma-separated) <input name="tags" placeholder="AI, production, bass"></label>
+              <label>Draft? <input type="checkbox" name="draft" checked></label>
+              <label>Publish At <input type="datetime-local" name="publish_at"></label>
+              <label>Body (Markdown) <textarea name="body_md" rows="8"></textarea></label>
+              <label>Body (HTML, optional) <textarea name="body_html" rows="6"></textarea></label>
+              <div class="mt-8">
+                <button class="btn" type="submit">Save Post</button>
+                <button class="btn outline" type="button" id="delete-post">Delete</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- SUBMISSIONS -->
+      <section id="tab-submissions" class="hidden">
+        <div class="row-grid">
+          <div class="card">
+            <h3>Subscriptions</h3>
+            <table class="table" id="subs-table">
+              <thead><tr><th>Name</th><th>Email</th><th>Country</th><th>When</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="card">
+            <h3>Inquiries</h3>
+            <table class="table" id="inq-table">
+              <thead><tr><th>Name</th><th>Email</th><th>Messenger</th><th>When</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+
+  <!-- Admin app logic -->
+  <script type="module" src="/assets/js/admin.js"></script>
+</body>
+</html>

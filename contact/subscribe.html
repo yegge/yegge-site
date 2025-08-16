@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Subscribe — Yegge</title>
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="module" src="/assets/js/inject.js"></script>
+  <script type="module" src="/assets/js/forms.js"></script>
+  <script type="module" src="/assets/js/config.js"></script>
+</head><body>
+  <div id="site-header"></div>
+  <main class="container">
+    <h1>Subscribe</h1>
+    <form id="subscribe-form" class="pure-form pure-form-stacked card">
+      <label>First Name <input name="first_name" required></label>
+      <label>Last Name <input name="last_name" required></label>
+      <label>Phone Number <input name="phone" type="tel"></label>
+      <label>Email Address <input name="email" type="email" required></label>
+      <label>Country
+        <select name="country" required>
+          <option value="">Select Country</option>
+          <option>United States</option><option>Canada</option><option>United Kingdom</option>
+        </select>
+      </label>
+      <label class="pure-checkbox">
+        <input type="checkbox" name="subscribe" checked> subscribe for updates
+      </label>
+      <input type="submit" value="Submit" class="btn">
+    </form>
+    <p id="subscribe-success" class="hidden">Thanks — you’re on the list.</p>
+  </main>
+  <div id="site-footer"></div>
+</body></html>

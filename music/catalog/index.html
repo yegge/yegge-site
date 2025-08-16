@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catalog — Yegge</title>
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="module" src="/assets/js/inject.js"></script>
+  <script type="module" src="/assets/js/catalog.js"></script>
+  <script type="module" src="/assets/js/config.js"></script>
+</head><body>
+  <div id="site-header"></div>
+  <main class="container">
+    <h1>Music Catalog</h1>
+    <p class="muted">ang­ershade.com → Angershade only · thecorruptive.com → The Corruptive only · yegge.com → all</p>
+    <section id="album-list" class="mt-8 grid cols-2">
+      <p class="muted">Loading…</p>
+    </section>
+  </main>
+
+  <!-- Simple modal -->
+  <div id="tracks-modal" class="hidden">
+    <div class="container card" style="position:fixed;left:50%;top:10%;transform:translateX(-50%);z-index:9999;max-width:900px">
+      <button class="close btn outline" style="float:right">Close</button>
+      <h2>Tracks</h2>
+      <div class="content mt-4"></div>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+</body>
+</html>
